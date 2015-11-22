@@ -71,6 +71,10 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'mysite.wsgi.application'
 
+AUTHENTICATION_BACKENDS = (
+    'dpam.backends.PAMBackend',
+)
+
 
 # Database
 # https://docs.djangoproject.com/en/1.8/ref/settings/#databases

@@ -1,4 +1,5 @@
 import random
+import dpam
 
 from django.shortcuts import get_object_or_404, render
 from django.http import HttpResponseRedirect
@@ -10,6 +11,8 @@ from .forms import LoginForm
 from .models import Candidate, Category, Students
 
 user_grade = 0
+student_id = 0
+votes = []
 
 
 def index(request):
@@ -21,6 +24,14 @@ def authenticate(request):
     if request.method == 'POST':
         form = LoginForm(request.POST)
         if form.is_valid():
+            #username = form.cleaned_data.get('username')
+            #password = form.cleaned_data.get('password')
+            #if dpam.authenticate(username,password):
+            #entries  = Students.objects.filter(student_id=username)
+            #if entries:
+            #return HttpResponseRedirect(reverse('polls:already_voted'))
+            #student_id = username
+            
             entries  = Students.objects.filter(student_id=form.cleaned_data.get('username'))
             global user_grade
             user_grade = entries[0].grade
@@ -62,6 +73,8 @@ def vote(request, slug):
             'error_message': "You didn't select a choice.",
         })
     else:
+        global votes
+        votes.append(selected_candidate.candidate_name)
         selected_candidate.votes += 1
         selected_candidate.save()
         # Always return an HttpResponseRedirect after successfully dealing
@@ -73,4 +86,14 @@ def vote(request, slug):
         return HttpResponseRedirect(reverse('polls:detail',args=(p.category_num+1,)))
     
 def thanks(request):
-	return render(request, 'polls/thanks.html')
+    #student = Student()
+    #global student_id
+    #student.username = student_id
+    #global votes
+    #votes_str = ' '.join(votes)
+    #student.votes = votes_str
+    #student.save()
+    return render(request, 'polls/thanks.html')
+
+def already_voted(request):
+	return render(request, 'polls/already_voted.html')
