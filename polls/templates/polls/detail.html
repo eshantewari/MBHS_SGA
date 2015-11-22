@@ -1,0 +1,14 @@
+<h1>{{ category.category_text }}</h1>
+
+{% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
+
+<form action="{% url 'polls:vote' category.slug %}" method="post">
+{% csrf_token %}
+{% for candidate in candidates %}
+    <input type="radio" name="candidate" id="candidate{{ forloop.counter }}" value="{{ candidate.id }}" />
+    <label for="candidate{{ forloop.counter }}">{{ candidate.candidate_name }}</label><br />
+{% endfor %}
+<br />
+<br />
+<input type="submit" value="Vote" />
+</form>

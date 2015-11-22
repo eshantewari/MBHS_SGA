@@ -1,0 +1,46 @@
+{% load staticfiles %}
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name = "author" content = "Eshan Tewari">
+
+<title>The 2016 SGA Election</title>
+<!-- styling -->
+<!-- http://colorschemedesigner.com/#2q21Tw0w0w0w0 -->
+<link href="http://fonts.googleapis.com/css?family=Overlock|Lily+Script+One|Oxygen|Questrial" rel="stylesheet" type="text/css">
+
+
+<link rel="stylesheet" href="{% static 'polls/css/styles.css' %}">
+</head>
+<body>
+
+<div id = "header">
+<div id="logos">
+<h1><center><span>Welcome</span> </center> </h1>
+<h1><center>to the 2016 Spring SGA Election Portal</center></h1>
+</div>
+</div>
+
+<div id="content">
+<div id = "instructions">
+<p> Welcome young scholars!  Enter your login info and click the button below to exercise the voting the glorious concept of democracy grants you! </p>
+<p>This site will guide you through the process of voting for candidate(s) in the 2014 SGA election. Your votes are anonymous.</p>
+
+<p><strong>Please do not use the back buttons in the browser or try to exit out of the voting process until you see the confirmation page.</strong> However, if you must go back/exit out for some reason, please request assistance.</p>
+</div>
+<div id = "input">
+{% if category_list %}
+
+<form action="{% url 'polls:authenticate' %}">
+<div id = "button">
+<button type="submit" name="" value="" class="css3button">Come on man, Let's Go! No brainwashing here...
+</div>
+</form>
+</div>
+{% else %}
+    <p>No polls are available.</p>
+{% endif %}
+</div>
+</body>
+</html>

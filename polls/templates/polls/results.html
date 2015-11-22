@@ -1,0 +1,9 @@
+<h1>{{ category.category_text }}</h1>
+
+<ul>
+{% for candidate in category.candidate_set.all %}
+    <li>{{ candidate.candidate_name }} -- {{ candidate.votes }} vote{{ candidate.votes|pluralize }}</li>
+{% endfor %}
+</ul>
+
+<a href="{% url 'polls:detail' category.category_num %}">Vote again?</a>
