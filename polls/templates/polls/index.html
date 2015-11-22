@@ -30,7 +30,7 @@
 <p><strong>Please do not use the back buttons in the browser or try to exit out of the voting process until you see the confirmation page.</strong> However, if you must go back/exit out for some reason, please request assistance.</p>
 </div>
 <div id = "input">
-{% if latest_category_list %}
+{% if category_list %}
 
 <form action="{% url 'polls:authenticate' %}">
 <div id = "button">
@@ -41,5 +41,6 @@
 {% else %}
     <p>No polls are available.</p>
 {% endif %}
+</div>
 </body>
 </html>

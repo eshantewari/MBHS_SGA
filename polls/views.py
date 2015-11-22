@@ -13,7 +13,9 @@ user_grade = 0
 
 
 def index(request):
-    return render(request, 'polls/index.html')
+    categories = Category.objects.order_by("-category_num")
+    context = {'category_list': categories}
+    return render(request, 'polls/index.html',context)
 
 def authenticate(request):
     if request.method == 'POST':
