@@ -7,8 +7,8 @@ from django.template.defaultfilters import slugify
 #The Class which accesses/manages the database of students/login info
 class Students(models.Model):
     student_id = models.IntegerField(primary_key=True)
-    grade = models.IntegerField() #this will be deleted after PAM
-    password = models.CharField(max_length=30, blank=True, null=True) #this will be deleted after PAM
+    grade = models.IntegerField()
+    password = models.CharField(max_length=30, blank=True, null=True)
     #This will be a huge-ass string used solely for authentication/record purposes: it will just be a concatenated list of all of the student's votes
     votes = models.TextField(blank = True, null = True) 
     class Meta:

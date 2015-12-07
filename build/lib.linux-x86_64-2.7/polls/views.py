@@ -1,6 +1,6 @@
 import random
+import dpam
 
-from django.contrib.auth import authenticate, login, logout
 from django.shortcuts import get_object_or_404, render
 from django.http import HttpResponseRedirect
 from django.core.urlresolvers import reverse
@@ -26,14 +26,12 @@ def authenticate(request):
         if form.is_valid():
             #username = form.cleaned_data.get('username')
             #password = form.cleaned_data.get('password')
-            #user = authenticate(username=username, password=password)
-            #if user is not None:
-                #entries  = Students.objects.filter(student_id=username)
-                #if entries:
-                    #return HttpResponseRedirect(reverse('polls:already_voted'))
-                #global student_id
-                #student_id = username
-                #user_grade???
+            #if dpam.authenticate(username,password):
+            #entries  = Students.objects.filter(student_id=username)
+            #if entries:
+            #return HttpResponseRedirect(reverse('polls:already_voted'))
+            #student_id = username
+            
             entries  = Students.objects.filter(student_id=form.cleaned_data.get('username'))
             global user_grade
             user_grade = entries[0].grade
@@ -44,7 +42,6 @@ def authenticate(request):
     return render(request, 'polls/login.html',{'form':form})
 
 #The View for the Voting Pages - this will display candidates along with their mottos in a pseudo-random order
-@login_required
 def detail(request, slug):
     category = get_object_or_404(Category, slug=slug)
     global user_grade
@@ -64,7 +61,7 @@ def detail(request, slug):
     else:
         return HttpResponseRedirect(reverse('polls:detail',args=(category.category_num+1,)))
 
-@login_required
+
 def vote(request, slug):
     p = get_object_or_404(Category, slug=slug)
     try:
@@ -80,12 +77,14 @@ def vote(request, slug):
         votes.append(selected_candidate.candidate_name)
         selected_candidate.votes += 1
         selected_candidate.save()
+        # Always return an HttpResponseRedirect after successfully dealing
+        # with POST data. This prevents data from being posted twice if a
+        # user hits the Back button.
     if p.category_num >= Category.objects.count():
             return HttpResponseRedirect(reverse('polls:thanks'))
     else:
         return HttpResponseRedirect(reverse('polls:detail',args=(p.category_num+1,)))
     
-@login_required    
 def thanks(request):
     #student = Student()
     #global student_id
@@ -94,7 +93,6 @@ def thanks(request):
     #votes_str = ' '.join(votes)
     #student.votes = votes_str
     #student.save()
-    #logout(request)
     return render(request, 'polls/thanks.html')
 
 def already_voted(request):
